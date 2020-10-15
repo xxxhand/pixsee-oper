@@ -12,6 +12,10 @@
   "dependencies": {
     "mongodb": "3.6.2",
     "fs-extra": "9.0.1",
-    "json-2-csv": "3.7.6"
+    "json-2-csv": "3.7.6",
+    "dotenv": "8.2.0"
+  },
+  "devDependencies": {
+    "cross-env": "7.0.2"
   }
 }

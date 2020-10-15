@@ -1,17 +1,17 @@
 const converter = require('json-2-csv')
 const fs = require('fs-extra')
 const path = require('path')
+const dotenv = require('dotenv')
 const client = require('./default-mongo-client')
 const util = require('./default-util')
 
-// Prod db
-const _uri = 'mongodb://pixieapi:pixsEeSwhQ2046@40.112.128.223:33576,104.42.148.203:33576,104.42.59.141:33576/pixie?authSource=pixie&replicaSet=pixseers&readPreference=secondaryPreferred'
+dotenv.config({ path: path.resolve(__dirname, './.env-prod') })
+
 const _db_name = 'pixie'
 const _cols = {
     Device: 'Devices',
     Account: 'Accounts',
     FileInfo: 'FileInfos',
-    Baby: 'Babys'
 }
 
 const _snAry = [
@@ -102,12 +102,11 @@ const _snAry = [
 
 
 async function main() {
-    await client.tryConnect(_uri, _db_name)
-    const [deviceCol, accountCol, fileInfoCol, babyCol] = await Promise.all([
+    await client.tryConnect(process.env.PIXSEE_URI, _db_name)
+    const [deviceCol, accountCol, fileInfoCol] = await Promise.all([
         client.getCollection(_cols.Device),
         client.getCollection(_cols.Account),
         client.getCollection(_cols.FileInfo),
-        client.getCollection(_cols.Baby)
     ])
     /**
      * @type {Array.<IResult>}
